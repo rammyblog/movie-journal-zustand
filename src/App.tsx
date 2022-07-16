@@ -1,19 +1,28 @@
-import { Center } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
+import AddMovie from './components/AddMovie';
 import CustomInput from './components/CustomInput';
+import Movies from './components/Movies';
 import Title from './components/Title';
 import useInput from './hooks/useInput';
 
 function App() {
-  const [search, handleChange] = useInput('');
+  const [search, handleSearchChange] = useInput('');
+
   return (
-    <Center>
+    <Flex
+      flexDirection={'column'}
+      justifyContent="center"
+      alignItems={'center'}
+    >
       <Title text="Movie Journal" color="#F56565" />
       <CustomInput
         placeholder="search"
-        handleChange={handleChange}
+        handleChange={handleSearchChange}
         value={search}
       />
-    </Center>
+      <AddMovie />
+      <Movies />
+    </Flex>
   );
 }
 
