@@ -9,10 +9,10 @@ const Title = ({ text, color }: Props) => {
   return (
     <Heading
       textTransform="uppercase"
-      fontSize="4em"
+      fontSize={['2.5em', '4em']}
       fontWeight="100"
       as="h3"
-      size="lg"
+      size={['lg']}
       color={color}
     >
       {text}
@@ -21,7 +21,3 @@ const Title = ({ text, color }: Props) => {
 };
 
 export default Title;
-
-// text-transform: uppercase;
-// font-size: 4em;
-// font-weight: 100;/

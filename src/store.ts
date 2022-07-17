@@ -22,6 +22,12 @@ const updateMovie = (
   return updatedMovies;
 };
 
+const searchMovie = (movies: Movie[], term: string): Movie[] => {
+  return movies.filter((movie) =>
+    movie.title.toLowerCase().includes(term.toLowerCase())
+  );
+};
+
 const removeMovie = (movies: Movie[], id: number): Movie[] => {
   const updatedMovies = movies.filter((movie) => movie.id !== id);
   localStorage.setItem('movie-journal', JSON.stringify(updatedMovies));
@@ -49,15 +55,18 @@ const setMovies = (): Movie[] => {
 // Zustand implementation
 type Store = {
   movies: Movie[];
+  searchedMovies: Movie[];
   setMovies: () => void;
   addMovie: (title: string, rating: number) => void;
   updateMovie: (id: number, title: string, rating: number) => void;
   removeMovie: (id: number) => void;
+  searchMovie: (term: string) => void;
 };
 
 const useStore = create<Store>(
   (set): Store => ({
     movies: [],
+    searchedMovies: [],
     // Set movies from localstorage
     setMovies: () =>
       set((state) => ({
@@ -78,6 +87,12 @@ const useStore = create<Store>(
     },
     removeMovie: (id: number) => {
       set((state) => ({ ...state, movies: removeMovie(state.movies, id) }));
+    },
+    searchMovie: (term: string) => {
+      set((state) => ({
+        ...state,
+        searchedMovies: searchMovie(state.movies, term),
+      }));
     },
   })
 );

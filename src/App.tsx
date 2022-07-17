@@ -1,5 +1,5 @@
 import { Container, Flex } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import AddMovie from './components/AddMovie';
 import CustomInput from './components/CustomInput';
 import Movies from './components/Movies';
@@ -8,11 +8,16 @@ import useInput from './hooks/useInput';
 import useStore from './store';
 
 function App() {
-  const [search, handleSearchChange] = useInput('');
-  const setMovies = useStore((state) => state.setMovies);
+  const [search, setSearch] = useState('');
+  const { setMovies, searchMovie } = useStore((state) => state);
   useEffect(() => {
     setMovies();
   }, []);
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    searchMovie(event.target.value);
+    setSearch(event.target.value);
+  };
 
   return (
     <Container>
@@ -29,7 +34,7 @@ function App() {
         />
         <AddMovie />
       </Flex>
-      <Movies />
+      <Movies search={search} />
     </Container>
   );
 }

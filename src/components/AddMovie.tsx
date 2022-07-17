@@ -18,7 +18,7 @@ const AddMovie = (props: Props) => {
   };
 
   return (
-    <Flex>
+    <Flex mt={2}>
       <CustomInput
         placeholder="Title"
         handleChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -32,7 +32,8 @@ const AddMovie = (props: Props) => {
           setRatings(parseInt(e.target.value, 10))
         }
         placeholder="Select Rating"
-        width={'50%'}
+        mx={3}
+        // width={['30%', '16%', '15%']}
       >
         <option value="1">1</option>
         <option value="2">2</option>
