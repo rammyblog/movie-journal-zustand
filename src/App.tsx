@@ -1,12 +1,18 @@
 import { Container, Flex } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import AddMovie from './components/AddMovie';
 import CustomInput from './components/CustomInput';
 import Movies from './components/Movies';
 import Title from './components/Title';
 import useInput from './hooks/useInput';
+import useStore from './store';
 
 function App() {
   const [search, handleSearchChange] = useInput('');
+  const setMovies = useStore((state) => state.setMovies);
+  useEffect(() => {
+    setMovies();
+  }, []);
 
   return (
     <Container>

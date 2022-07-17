@@ -13,6 +13,8 @@ const AddMovie = (props: Props) => {
 
   const onSubmit = () => {
     addMovie(movieTitle, ratings);
+    setMovieTitle('');
+    setRatings(1);
   };
 
   return (

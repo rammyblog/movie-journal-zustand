@@ -8,9 +8,8 @@ export default function Movies({}: Props) {
 
   return (
     <div>
-      {movies.map((movie) => (
-        <SingleMovie movie={movie} key={movie.id} />
-      ))}
+      {movies &&
+        movies.map((movie) => <SingleMovie movie={movie} key={movie.id} />)}
     </div>
   );
 }

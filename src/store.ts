@@ -12,59 +12,62 @@ const updateMovie = (
   id: number,
   title: string,
   rating: number
-): Movie[] =>
-  movies.map((movie) => ({
+): Movie[] => {
+  const updatedMovies = movies.map((movie) => ({
     ...movie,
     title: movie.id === id ? title : movie.title,
     rating: movie.id === id ? rating : movie.rating,
   }));
+  localStorage.setItem('movie-journal', JSON.stringify(updatedMovies));
+  return updatedMovies;
+};
 
-// const toggleTodo = (todos: Todo[], id: number): Todo[] =>
-//   todos.map((todo) => ({
-//     ...todo,
-//     done: todo.id === id ? !todo.done : todo.done,
-//   }));
+const removeMovie = (movies: Movie[], id: number): Movie[] => {
+  const updatedMovies = movies.filter((movie) => movie.id !== id);
+  localStorage.setItem('movie-journal', JSON.stringify(updatedMovies));
+  return updatedMovies;
+};
 
-const removeMovie = (movies: Movie[], id: number): Movie[] =>
-  movies.filter((movie) => movie.id !== id);
+const addMovie = (movies: Movie[], title: string, rating: number): Movie[] => {
+  const updatedMovies = [
+    ...movies,
+    {
+      id: Math.max(0, Math.max(...movies.map(({ id }) => id))) + 1,
+      title,
+      rating,
+    },
+  ];
+  localStorage.setItem('movie-journal', JSON.stringify(updatedMovies));
+  return updatedMovies;
+};
 
-const addMovieAction = (
-  movies: Movie[],
-  title: string,
-  rating: number
-): Movie[] => [
-  ...movies,
-  {
-    id: Math.max(0, Math.max(...movies.map(({ id }) => id))) + 1,
-    title,
-    rating,
-  },
-];
+const setMovies = (): Movie[] => {
+  const movies = localStorage.getItem('movie-journal');
+  return movies ? JSON.parse(movies) : [];
+};
 
 // Zustand implementation
 type Store = {
   movies: Movie[];
-  setMovies: (movies: Movie[]) => void;
+  setMovies: () => void;
   addMovie: (title: string, rating: number) => void;
   updateMovie: (id: number, title: string, rating: number) => void;
-  //   toggleTodo: (id: number) => void;
   removeMovie: (id: number) => void;
-  //   setNewTodo: (newTodo: string) => void;
 };
 
 const useStore = create<Store>(
   (set): Store => ({
     movies: [],
     // Set movies from localstorage
-    setMovies: (movies: Movie[]) =>
+    setMovies: () =>
       set((state) => ({
         ...state,
-        movies,
+        movies: setMovies(),
       })),
     addMovie: (title: string, rating: number) => {
       set((state) => ({
         ...state,
-        movies: addMovieAction(state.movies, title, rating),
+        movies: addMovie(state.movies, title, rating),
       }));
     },
     updateMovie: (id: number, title: string, rating: number) => {
