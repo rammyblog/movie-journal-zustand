@@ -25,8 +25,8 @@ const updateMovie = (
 //     done: todo.id === id ? !todo.done : todo.done,
 //   }));
 
-// const removeTodo = (todos: Todo[], id: number): Todo[] =>
-//   todos.filter((todo) => todo.id !== id);
+const removeMovie = (movies: Movie[], id: number): Movie[] =>
+  movies.filter((movie) => movie.id !== id);
 
 const addMovieAction = (
   movies: Movie[],
@@ -48,7 +48,7 @@ type Store = {
   addMovie: (title: string, rating: number) => void;
   updateMovie: (id: number, title: string, rating: number) => void;
   //   toggleTodo: (id: number) => void;
-  //   removeTodo: (id: number) => void;
+  removeMovie: (id: number) => void;
   //   setNewTodo: (newTodo: string) => void;
 };
 
@@ -72,6 +72,9 @@ const useStore = create<Store>(
         ...state,
         movies: updateMovie(state.movies, id, title, rating),
       }));
+    },
+    removeMovie: (id: number) => {
+      set((state) => ({ ...state, movies: removeMovie(state.movies, id) }));
     },
   })
 );

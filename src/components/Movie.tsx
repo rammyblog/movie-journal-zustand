@@ -11,7 +11,7 @@ const SingleMovie = ({ movie }: Props) => {
   const [showEditForm, setShowEditFrom] = useState(false);
   const [editMovieTitle, setEditMovieTitle] = useState(movie.title);
   const [ratings, setRatings] = useState(movie.rating);
-  const { updateMovie } = useStore((state) => state);
+  const { updateMovie, removeMovie } = useStore((state) => state);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEditMovieTitle(event.target.value);
@@ -43,7 +43,9 @@ const SingleMovie = ({ movie }: Props) => {
             >
               Edit
             </Button>
-            <Button colorScheme={'red'}>Delete</Button>
+            <Button colorScheme={'red'} onClick={() => removeMovie(movie.id)}>
+              Delete
+            </Button>
           </Box>
         )}
         {showEditForm && (
@@ -85,7 +87,9 @@ const SingleMovie = ({ movie }: Props) => {
               >
                 Cancel
               </Button>
-              <Button colorScheme={'red'}>Delete</Button>
+              <Button onClick={() => removeMovie(movie.id)} colorScheme={'red'}>
+                Delete
+              </Button>
             </Box>
           </form>
         )}
