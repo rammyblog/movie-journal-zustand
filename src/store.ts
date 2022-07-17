@@ -7,11 +7,17 @@ export interface Movie {
   rating: number;
 }
 
-// const updateTodo = (todos: Todo[], id: number, text: string): Todo[] =>
-//   todos.map((todo) => ({
-//     ...todo,
-//     text: todo.id === id ? text : todo.text,
-//   }));
+const updateMovie = (
+  movies: Movie[],
+  id: number,
+  title: string,
+  rating: number
+): Movie[] =>
+  movies.map((movie) => ({
+    ...movie,
+    title: movie.id === id ? title : movie.title,
+    rating: movie.id === id ? rating : movie.rating,
+  }));
 
 // const toggleTodo = (todos: Todo[], id: number): Todo[] =>
 //   todos.map((todo) => ({
@@ -40,7 +46,7 @@ type Store = {
   movies: Movie[];
   setMovies: (movies: Movie[]) => void;
   addMovie: (title: string, rating: number) => void;
-  //   updateTodo: (id: number, title: string) => void;
+  updateMovie: (id: number, title: string, rating: number) => void;
   //   toggleTodo: (id: number) => void;
   //   removeTodo: (id: number) => void;
   //   setNewTodo: (newTodo: string) => void;
@@ -59,6 +65,12 @@ const useStore = create<Store>(
       set((state) => ({
         ...state,
         movies: addMovieAction(state.movies, title, rating),
+      }));
+    },
+    updateMovie: (id: number, title: string, rating: number) => {
+      set((state) => ({
+        ...state,
+        movies: updateMovie(state.movies, id, title, rating),
       }));
     },
   })

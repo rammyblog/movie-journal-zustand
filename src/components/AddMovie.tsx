@@ -1,5 +1,5 @@
 import { Button, Flex, Select } from '@chakra-ui/react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import useInput from '../hooks/useInput';
 import useStore from '../store';
 import CustomInput from './CustomInput';
@@ -7,20 +7,21 @@ import CustomInput from './CustomInput';
 interface Props {}
 
 const AddMovie = (props: Props) => {
-  const [movieTitle, handleMovieTitleChange] = useInput('');
+  const [movieTitle, setMovieTitle] = useState('');
   const [ratings, setRatings] = useState(1);
-  const store = useStore((state) => state);
+  const addMovie = useStore((state) => state.addMovie);
 
   const onSubmit = () => {
-    store.addMovie(movieTitle, ratings);
-    
+    addMovie(movieTitle, ratings);
   };
 
   return (
     <Flex>
       <CustomInput
         placeholder="Title"
-        handleChange={handleMovieTitleChange}
+        handleChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setMovieTitle(e.target.value)
+        }
         value={movieTitle}
       />
       <Select

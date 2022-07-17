@@ -1,5 +1,5 @@
-import React from 'react';
 import useStore from '../store';
+import SingleMovie from './Movie';
 
 type Props = {};
 
@@ -9,7 +9,7 @@ export default function Movies({}: Props) {
   return (
     <div>
       {movies.map((movie) => (
-        <div key={movie.id}>{movie.title}</div>
+        <SingleMovie movie={movie} key={movie.id} />
       ))}
     </div>
   );
